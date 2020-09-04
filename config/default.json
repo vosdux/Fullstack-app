@@ -1,0 +1,5 @@
+{
+    "port": 5000,
+    "mongoUri": "mongodb+srv://vosdux:vosdux@cluster0.8kncs.azure.mongodb.net/socail-strike?retryWrites=true&w=majority",
+    "jwtSecret": "vosdux"
+}
