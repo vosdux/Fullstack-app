@@ -6,6 +6,8 @@ const schema = new Schema({
     nickName: { type: String, required: true },
     honestyRate: { type: Number },
     friendlyRate: { type: Number },
+    effectiveRate: { type: Number },
+    numberOfRate: { type: Number },
     team: [{ type: Types.ObjectId, ref: 'Team' }],
     user: [{ type: Types.ObjectId, ref: 'User' }]
 });

@@ -2,6 +2,9 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Events from './modules/Events';
 import Event from './modules/Event';
+import SignIn from './modules/SignIn';
+import MainPage from './modules/MainPage';
+import MapPage from './modules/Map';
 
 export const useRoutes = (isAuthenticated: boolean, userId: string | null): JSX.Element => {
     console.log(isAuthenticated);
@@ -14,19 +17,26 @@ export const useRoutes = (isAuthenticated: boolean, userId: string | null): JSX.
                 <Route path="/events">
                     <Events />
                 </Route>
+                <Route path='/events/map'>
+                    <MapPage />
+                </Route>
+                <Route path='/main/:userId'>
+                    <MainPage />
+                </Route>
+                <Redirect to={`/main/${userId}`}/>
             </Switch>
         );
     }
 
     return (
         <Switch>
-            {/* <Route path="/" exact>
+            <Route path="/" exact>
                 <SignIn />
             </Route>
-            <Route path="/signup">
+            {/* <Route path="/signup">
                 <SignUp />
-            </Route>
-            <Redirect to="/" /> */}
+            </Route> */}
+            <Redirect to="/" />
         </Switch>
     );
 }

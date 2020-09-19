@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Col, Row, Card, List, Avatar, Button } from 'antd'
-import MainLayout from '../components/Layout'
-import Modal from 'antd/lib/modal/Modal'
-import AddEventForm from '../components/AddEventForm'
+import { Col, Row, Card, List, Avatar, Button, Modal } from 'antd';
+import { Link } from 'react-router-dom';
+import AddEventForm from '../components/AddEventForm';
 
 const mock = [
     {
@@ -23,7 +22,10 @@ const Events = () => {
                 <Card
                     style={{ width: '100%' }}
                     title="Список игр в которых вы участвуете"
-                    extra={<Button type='primary' onClick={() => setModalVisible(true)}>Организовать игру</Button>}
+                    extra={<>
+                        <Link to='/events/map' style={{marginRight: 10}}>Посмотреть на карте</Link>
+                        <Button type='primary' onClick={() => setModalVisible(true)}>Организовать игру</Button>
+                    </>}
                 >
                     <List
                         itemLayout="horizontal"
