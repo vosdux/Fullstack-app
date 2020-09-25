@@ -46,8 +46,10 @@ export const useHttp = (): IFetchData => {
                 method,
                 params,
                 data,
-                headers: `Bearer ${getToken()}`
-            })
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                },
+            });
             setLoading(false)
             return fetchData
         } catch (error) {
