@@ -1,5 +1,6 @@
 import React from 'react'
 import { Form, Input, DatePicker, Button } from 'antd'
+import { defaultDateTimeFormat } from '../helpers/constants';
 
 const requiredRule = [{ required: true, message: 'Поле обязательно для заполнения' }]
 
@@ -18,7 +19,7 @@ interface IForm {
     onSubmit: (values: IFormValues) => void
 };
 
-interface IFormValues {
+export interface IFormValues {
     caption: string,
     description?: string,
     startDate: string,
@@ -39,10 +40,16 @@ const AddEventForm = ({ onCancel, onSubmit }: IForm) => {
                 <Input.TextArea />
             </Form.Item>
             <Form.Item name='startDate' label='Дата начала' rules={requiredRule}>
-                <DatePicker showTime />
+                <DatePicker
+                    showTime
+                    format={defaultDateTimeFormat}
+                />
             </Form.Item>
             <Form.Item name='endDate' label='Дата окончания'>
-                <DatePicker showTime />
+                <DatePicker
+                    showTime
+                    format={defaultDateTimeFormat}
+                />
             </Form.Item>
             <Form.Item {...buttonLayout}>
                 <Button type='primary' htmlType='submit' style={{ marginRight: 5 }}>Создать</Button>

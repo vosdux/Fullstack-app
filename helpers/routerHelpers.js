@@ -26,7 +26,7 @@ export const postFunc = (model, dataCallback) => async (req, res) => {
             data = dataCallback(req.body);
         }
         const newItem = await model.create(data);
-        res.json({ squad });
+        res.json({ newItem });
     } catch (error) {
         console.log(error)
         res.status(500).json({ message: 'Что-то пошло не так ' });

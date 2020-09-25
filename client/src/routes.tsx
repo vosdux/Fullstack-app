@@ -11,14 +11,14 @@ export const useRoutes = (isAuthenticated: boolean, userId: string | null): JSX.
     if (isAuthenticated) {
         return (
             <Switch>
+                <Route path='/events/map'>
+                    <MapPage />
+                </Route>
                 <Route path="/events/:id">
                     <Event />
                 </Route>
                 <Route path="/events">
                     <Events />
-                </Route>
-                <Route path='/events/map'>
-                    <MapPage />
                 </Route>
                 <Route path='/main/:userId'>
                     <MainPage />

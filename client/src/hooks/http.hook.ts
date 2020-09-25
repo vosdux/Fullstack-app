@@ -10,7 +10,8 @@ export interface IFetchData {
 
 const getToken = () => {
     let data = getParsedLocalStorage();
-    return data.token;
+    console.log(data.accessToken)
+    return data.accessToken;
 }
 
 const getUrl = (url: string): string => {
@@ -39,9 +40,7 @@ export const useHttp = (): IFetchData => {
     const request = useCallback(async ({ data, method = 'get', url, params }: AxiosRequestConfig) => {
         setLoading(true);
         try {
-            const { REACT_APP_URL: mainUrl } = process.env;
-            console.log('request')
-
+            console.log(url)
             const fetchData = await axios({
                 url: url && getUrl(url),
                 method,
@@ -52,7 +51,8 @@ export const useHttp = (): IFetchData => {
             setLoading(false)
             return fetchData
         } catch (error) {
-            setLoading(false)
+            setLoading(false);
+            console.log(error);
             throw error
         }
     }, []);

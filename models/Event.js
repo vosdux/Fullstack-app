@@ -8,6 +8,9 @@ const schema = new Schema({
     players: [{
         user: [{ type: Types.ObjectId, ref: 'User' }]
     }],
+    organistaors: [{
+        user: [{ type: Types.ObjectId, ref: 'User' }]
+    }],
     rules: { type: String, required: true },
     additionalInfo: { type: String, required: true },
 });
