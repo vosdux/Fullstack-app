@@ -1,6 +1,8 @@
+import { ISignValue } from './../modules/SignIn';
 import { useState, useCallback } from 'react';
 import axios, { AxiosRequestConfig } from 'axios';
 import { getParsedLocalStorage } from '../helpers/utils';
+import { errorModal } from '../helpers/Modal';
 
 export interface IFetchData {
     loading: boolean,
@@ -22,18 +24,24 @@ const getUrl = (url: string): string => {
 export const useHttp = (): IFetchData => {
     const [loading, setLoading] = useState<boolean>(false);
 
-    const authRequest = useCallback(async (mode: string, data: any) => {
+    const authRequest = useCallback(async (mode: string, data: ISignValue) => {
         setLoading(true);
         try {
-            let fetchData = await axios({
+            let response = await axios({
                 url: getUrl(mode === 'register' ? 'api/auth/register' : 'api/auth/login'),
                 data,
                 method: 'post'
             });
-            return fetchData.data;
+            if (response.status === 200) {
+                const { data } = response;
+                if (data) {
+                    return data;
+                }
+            }
             setLoading(false);
         } catch (error) {
             setLoading(false);
+            throw error;
         }
     }, []);
 

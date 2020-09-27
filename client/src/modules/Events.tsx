@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Col, Row, Card, List, Avatar, Button, Modal } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AddEventForm, { IFormValues } from '../components/AddEventForm';
 import YoursGameList from '../components/YoursGameList';
 import AllGames from '../components/AllGames';
@@ -27,6 +27,7 @@ const Events = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [tabKey, setTabKey] = useState<string>('all');
     const { request, loading } = useHttp();
+    const history = useHistory();
 
     const contentList: IContentList = {
         all: <AllGames />,
@@ -35,14 +36,13 @@ const Events = () => {
 
     const createEvent = async (values: IFormValues) => {
         try {
-            console.log(values)
             const data = await request({
                 url: 'api/events',
                 method: 'post',
                 data: values
             });
-            console.log(data);
-        } catch (error) { console.log(error) }
+            history.push(`/events${data._id}`)
+        } catch (error) { }
     };
 
     return (
@@ -72,6 +72,7 @@ const Events = () => {
             >
                 <AddEventForm
                     onSubmit={createEvent}
+                    loading={loading}
                     onCancel={() => setModalVisible(false)}
                 />
             </Modal>

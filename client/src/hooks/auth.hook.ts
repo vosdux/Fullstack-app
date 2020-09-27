@@ -2,8 +2,15 @@ import { getParsedLocalStorage } from './../helpers/utils';
 import { useState, useCallback, useEffect } from 'react';
 import { storageName } from '../helpers/constants';
 
+interface IloginConf {
+    accessToken: string | null,
+    refreshToken: string | null,
+    expiredIn: number | null,
+    userId: string | null,
+}
+
 export interface IUserInfo {
-    login: (accessToken: string | null, refreshToken: string | null, expiredIn: number | null, userId: string | null) => void,
+    login: (conf: IloginConf) => void,
     logout: () => void,
     accessToken: string | null,
     refreshToken: string | null,
@@ -20,28 +27,28 @@ export const useAuth = (): IUserInfo => {
     const [ready, setReady] = useState<boolean>(false);
     const [userId, setUserId] = useState<string | null>(parseData ? parseData.userId : null);
 
-    const login = useCallback((accessToken: string | null, refreshToken: string | null, expiredIn: number | null, userId: string | null) => {
-        setAccessToken(accessToken);
-        setRefreshToken(refreshToken);
-        setExpiredIn(expiredIn)
-        setUserId(userId);
+    const login = useCallback(({ accessToken, refreshToken, expiredIn, userId }: IloginConf) => {
+    setAccessToken(accessToken);
+    setRefreshToken(refreshToken);
+    setExpiredIn(expiredIn)
+    setUserId(userId);
 
-        localStorage.setItem(storageName, JSON.stringify({
-            userId,
-            accessToken,
-            refreshToken,
-            expiredIn
-        }))
-    }, []);
+    localStorage.setItem(storageName, JSON.stringify({
+        userId,
+        accessToken,
+        refreshToken,
+        expiredIn
+    }))
+}, []);
 
-    const logout = useCallback(() => {
-        setAccessToken(null);
-        setRefreshToken(null);
-        setExpiredIn(null)
-        setUserId(null);
+const logout = useCallback(() => {
+    setAccessToken(null);
+    setRefreshToken(null);
+    setExpiredIn(null)
+    setUserId(null);
 
-        localStorage.removeItem(storageName);
-    }, []);
+    localStorage.removeItem(storageName);
+}, []);
 
-    return { login, logout, accessToken, refreshToken, expiredIn, userId, ready };
+return { login, logout, accessToken, refreshToken, expiredIn, userId, ready };
 }

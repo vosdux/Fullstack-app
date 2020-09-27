@@ -1,5 +1,13 @@
-import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import React, { useContext } from 'react';
+import { Form, Input, Button, Checkbox, Card } from 'antd';
+import { AuthContext } from '../context/AuthContext';
+import { useHttp } from '../hooks/http.hook';
+import { errorModal } from '../helpers/Modal';
+
+export interface ISignValue {
+    email: string,
+    password: string,
+}
 
 const layout = {
     labelCol: { span: 8 },
@@ -10,8 +18,17 @@ const tailLayout = {
 };
 
 const SignIn = () => {
-    const onFinish = (values: any) => {
-        console.log('Success:', values);
+    const { login } = useContext(AuthContext);
+    const { authRequest } = useHttp();
+
+    const onFinish = async (values: ISignValue) => {
+        try {
+            const data = await authRequest(login, values);
+            console.log(data);
+            login(data);
+        } catch (error) {
+            errorModal('Ошибка', error.response.data.message)
+        }
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -19,39 +36,44 @@ const SignIn = () => {
     };
 
     return (
-        <Form
-            {...layout}
-            name="basic"
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
+        <div className='signup-card'><Card
+            title='Войти'
         >
-            <Form.Item
-                label="Username"
-                name="username"
-                rules={[{ required: true, message: 'Please input your username!' }]}
+            <Form
+                {...layout}
+                name="basic"
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
             >
-                <Input />
-            </Form.Item>
+                <Form.Item
+                    label="Логин"
+                    name="email"
+                    rules={[{ required: true, message: 'Введите логин!' }]}
+                >
+                    <Input />
+                </Form.Item>
 
-            <Form.Item
-                label="Password"
-                name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-                <Input.Password />
-            </Form.Item>
+                <Form.Item
+                    label="Пароль"
+                    name="password"
+                    rules={[{ required: true, message: 'Введите пароль!' }]}
+                >
+                    <Input.Password />
+                </Form.Item>
 
-            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-                <Checkbox>Remember me</Checkbox>
-            </Form.Item>
+                <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+                    <Checkbox>Запомнить меня</Checkbox>
+                </Form.Item>
 
-            <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit">
-                    Submit
-        </Button>
-            </Form.Item>
-        </Form>
+                <Form.Item {...tailLayout}>
+                    <Button type="primary" htmlType="submit">
+                        Войти
+                    </Button>
+                </Form.Item>
+            </Form>
+        </Card>
+        </div>
     );
 };
 

@@ -9,7 +9,8 @@ const app = express();
 app.use(bodyParser({limit: '50mb'}));
 app.use(cors());
 app.use('/api/auth', require('./routes/auth.router'));
-app.use('/api/events', require('./routes/auth.router'));
+app.use('/api/events', require('./routes/event.router'));
+app.use('/api/team', require('./routes/team.router'));
 
 const PORT = config.get('port');
 

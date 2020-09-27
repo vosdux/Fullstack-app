@@ -2,17 +2,16 @@ const { Schema, model, Types } = require('mongoose');
 
 const schema = new Schema({
     caption: { type: String, required: true },
-    description: { type: String, required: true },
+    description: { type: String },
     startDate: { type: String, required: true },
-    endDate: { type: String, required: true },
+    endDate: { type: String },
     players: [{
         user: [{ type: Types.ObjectId, ref: 'User' }]
     }],
-    organistaors: [{
-        user: [{ type: Types.ObjectId, ref: 'User' }]
-    }],
-    rules: { type: String, required: true },
-    additionalInfo: { type: String, required: true },
+    organistaors: { type: Types.ObjectId, ref: 'User' },
+    orgTeam: { type: Types.ObjectId, ref: 'Team' },
+    rules: { type: String },
+    additionalInfo: { type: String },
 });
 
 module.exports = model('Event', schema);

@@ -1,21 +1,23 @@
 import React, { FC, useContext } from 'react';
-import { Menu } from 'antd';
+import { Button, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 interface INavbar {
-    active: string
+    active: string,
+    isAuthenticated: boolean,
 }
 
-const Navbar = ({ active }: INavbar) => {
+const Navbar = ({ active, isAuthenticated }: INavbar) => {
     const auth = useContext(AuthContext);
     return (
         <>
             <div className="logo" />
-            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[active]}>
+            {isAuthenticated && <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[active]}>
                 <Menu.Item key="main"><Link to={`/main/${auth.userId}`}>Моя страница</Link></Menu.Item>
                 <Menu.Item key="events"><Link to={`/events`}>События</Link></Menu.Item>
-            </Menu>
+                <Button type='link' onClick={auth.logout}>Выйти</Button>
+            </Menu>}
         </>
     )
 }

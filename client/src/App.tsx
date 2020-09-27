@@ -8,9 +8,6 @@ import { Layout } from 'antd';
 import 'antd/dist/antd.css';
 import MainLayout from './components/Layout';
 
-const { Content } = Layout;
-
-
 const App: React.FC = () => {
   const { accessToken, refreshToken, expiredIn, login, logout, userId, ready } = useAuth();
   const isAuthenticated = !!accessToken;
@@ -19,7 +16,7 @@ const App: React.FC = () => {
   return (
     <AuthContext.Provider value={{ accessToken, refreshToken, expiredIn, login, logout, userId }}>
       <Router>
-        <MainLayout>
+        <MainLayout isAuthenticated={isAuthenticated}>
           {routes}
         </MainLayout>
 

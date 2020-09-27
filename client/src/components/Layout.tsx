@@ -6,19 +6,20 @@ import { useRouteMatch, useLocation } from 'react-router-dom';
 const { Header, Content } = Layout;
 
 interface ILayout {
-    children: JSX.Element
+    children: JSX.Element,
+    isAuthenticated: boolean,
 }
 
-const MainLayout = ({ children }: ILayout) => {
+const MainLayout = ({ children, isAuthenticated }: ILayout) => {
     const match = useRouteMatch();
     const location = useLocation();
 
     return (
-        <Layout>
+        <Layout className='h-100'>
             <Header>
-                <Navbar active={location.pathname.split('/')[1]}/>
+                <Navbar active={location.pathname.split('/')[1]} isAuthenticated={isAuthenticated}/>
             </Header>
-            <Content>
+            <Content className='h-100'>
                 {children}
             </Content>
         </Layout>

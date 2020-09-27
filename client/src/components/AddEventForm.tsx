@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, DatePicker, Button } from 'antd'
+import { Form, Input, DatePicker, Button, Select } from 'antd'
 import { defaultDateTimeFormat } from '../helpers/constants';
 
 const requiredRule = [{ required: true, message: 'Поле обязательно для заполнения' }]
@@ -15,6 +15,7 @@ const buttonLayout = {
 
 
 interface IForm {
+    loading: boolean,
     onCancel: () => void,
     onSubmit: (values: IFormValues) => void
 };
@@ -26,7 +27,7 @@ export interface IFormValues {
     endDate: string
 }
 
-const AddEventForm = ({ onCancel, onSubmit }: IForm) => {
+const AddEventForm = ({ onCancel, onSubmit, loading }: IForm) => {
     return (
         <Form
             name='create-evente'
@@ -51,8 +52,14 @@ const AddEventForm = ({ onCancel, onSubmit }: IForm) => {
                     format={defaultDateTimeFormat}
                 />
             </Form.Item>
+            <Form.Item name='orgType' label='Организатор'>
+                <Select>
+                    <Select.Option value='me' key='me'>Я</Select.Option>
+                    <Select.Option value='team' key='team'>Команда</Select.Option>
+                </Select>
+            </Form.Item>
             <Form.Item {...buttonLayout}>
-                <Button type='primary' htmlType='submit' style={{ marginRight: 5 }}>Создать</Button>
+                <Button type='primary' htmlType='submit' style={{ marginRight: 5 }} loading={loading}>Создать</Button>
                 <Button onClick={onCancel}>Отменить</Button>
             </Form.Item>
         </Form>

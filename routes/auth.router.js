@@ -48,7 +48,7 @@ router.post(
             const user = await User.findOne({ email });
 
             if (!user) {
-                return res.status(400).json({ message: 'Неверный логин' });
+                return res.status(400).json({ message: 'Неверный логин или пароль' });
             }
 
             const isMatch = bcrypt.compareSync(password, user.password);
